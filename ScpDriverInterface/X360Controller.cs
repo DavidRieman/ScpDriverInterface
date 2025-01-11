@@ -57,10 +57,9 @@ namespace ScpDriverInterface
 			RightStickY = controller.RightStickY;
 		}
 
-		/// <summary>
-		/// The controller's currently pressed buttons. Use the X360Button values like flags (i.e. (X360Buttons.A | X360Buttons.X) would be mean both A and X are pressed).
-		/// </summary>
-		public X360Buttons Buttons { get; set; }
+        /// <summary>The controller's currently pressed buttons. Use the X360Button values like flags.</summary>
+        /// <remarks>For example, (X360Buttons.A | X360Buttons.X) would be mean both A and X are pressed.</remarks>
+        public X360Buttons Buttons { get; set; }
 
 		/// <summary>
 		/// The controller's left trigger analog input. Value can range from 0 to 255.
@@ -131,31 +130,65 @@ namespace ScpDriverInterface
 	[Flags]
 	public enum X360Buttons
 	{
-        #pragma warning disable CS1591 // Disable "Missing XML comment for publicly visible type or member" for these buttons
-
+        /// <summary>No buttons.</summary>
         None = 0,
 
-		Up = 1 << 0,
+        /// <summary>The directional pad (D-Pad) Up button.</summary>
+        Up = 1 << 0,
+
+        /// <summary>The directional pad (D-Pad) Down button.</summary>
 		Down = 1 << 1,
+
+        /// <summary>The directional pad (D-Pad) Left button.</summary>
 		Left = 1 << 2,
+
+        /// <summary>The directional pad (D-Pad) Right button.</summary>
 		Right = 1 << 3,
 
+        /// <summary>The Start button.</summary>
 		Start = 1 << 4,
+
+        /// <summary>The Back button.</summary>
 		Back = 1 << 5,
 
+        /// <summary>Clicking down on the Left Stick Button (LSB) of the left analog stick of a standard controller.</summary>
+		/// <remarks>
+		/// Physically, this would be triggered with the awkward movement of pushing down on the top of the left analog stick, usually via thumb.
+		/// It is not recommended for games to rely on this "button" as it is not very intuitive, and generally bad for usability/accessibility.
+		/// However, some games/apps do use it, so this is especially valuable to be able to simulate (especially for accessibility middleware).
+		/// </remarks>
 		LeftStick = 1 << 6,
+
+        /// <summary>Clicking down on the Right Stick Button (RSB) of the right analog stick of a standard controller.</summary>
+		/// <remarks>
+		/// Physically, this would be triggered with the awkward movement of pushing down on the top of the right analog stick, usually via thumb.
+		/// It is not recommended for games to rely on this "button" as it is not very intuitive, and generally bad for usability/accessibility.
+		/// However, some games/apps do use it, so this is especially valuable to be able to simulate (especially for accessibility middleware).
+		/// </remarks>
 		RightStick = 1 << 7,
 
+        /// <summary>The Left Bumper (LB).</summary>
+		/// <remarks>Physically: This is the button usually located above the left analog trigger of a standard controller.</remarks>
 		LeftBumper = 1 << 8,
+
+        /// <summary>The Right Bumper (RB).</summary>
+		/// <remarks>Physically: This is the button usually located above the right analog trigger of a standard controller.</remarks>
 		RightBumper = 1 << 9,
 
-		Logo = 1 << 10,
+        /// <summary>The Guide button.</summary>
+		/// <remarks>This may sometimes be referred to as the Logo button.</remarks>
+		Guide = 1 << 10,
 
+        /// <summary>The 'A' button.</summary>
 		A = 1 << 12,
-		B = 1 << 13,
-		X = 1 << 14,
-		Y = 1 << 15,
 
-        #pragma warning restore CS1591
+        /// <summary>The 'B' button.</summary>
+		B = 1 << 13,
+
+        /// <summary>The 'X' button.</summary>
+		X = 1 << 14,
+
+        /// <summary>The 'Y' button.</summary>
+		Y = 1 << 15,
     }
 }

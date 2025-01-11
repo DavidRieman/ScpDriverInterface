@@ -7,12 +7,12 @@ namespace ScpTester
 {
 	public partial class ScpTester : Form
 	{
-		private ScpBus _scpBus;
+		private readonly ScpBus _scpBus;
 		private X360Controller _controller = new X360Controller();
 
 		private bool _numberChangeCheck = true;
 		private bool _resetting = false;
-		private byte[] _outputReport = new byte[8];
+		private readonly byte[] _outputReport = new byte[8];
 		private bool _rumbleValid = false;
 		private byte _bigRumble = 0;
 		private byte _smallRumble = 0;
@@ -213,9 +213,9 @@ namespace ScpTester
 
 		private void btnXbox_Click(object sender, EventArgs e)
 		{
-			_controller.Buttons ^= X360Buttons.Logo;
+			_controller.Buttons ^= X360Buttons.Guide;
 			if (!HandleButton((Button)sender))
-				_controller.Buttons ^= X360Buttons.Logo;
+				_controller.Buttons ^= X360Buttons.Guide;
 		}
 
 		private void btnStart_Click(object sender, EventArgs e)

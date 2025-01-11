@@ -28,9 +28,8 @@ namespace ScpDriverInterface
 	public class ScpBus : IDisposable
 	{
 		private const string SCP_BUS_CLASS_GUID = "{F679F562-3164-42CE-A4DB-E7DDBE723909}";
-		private const int ReportSize = 28;
 
-		private readonly SafeFileHandle _deviceHandle;
+        private readonly SafeFileHandle deviceHandle;
 
 		/// <summary>
 		/// Creates a new ScpBus object, which will then try to get a handle to the SCP Virtual Bus device. If it is unable to get the handle, an IOException will be thrown.
@@ -47,7 +46,7 @@ namespace ScpDriverInterface
 
 			if (Find(new Guid(SCP_BUS_CLASS_GUID), ref devicePath, instance))
 			{
-				_deviceHandle = GetHandle(devicePath);
+				deviceHandle = GetHandle(devicePath);
 			}
 			else
 			{
@@ -61,7 +60,7 @@ namespace ScpDriverInterface
 		/// <param name="devicePath">The path to the SCP Virtual Bus device that you want to use.</param>
 		public ScpBus(string devicePath)
 		{
-			_deviceHandle = GetHandle(devicePath);
+			deviceHandle = GetHandle(devicePath);
 		}
 
 		/// <summary>
@@ -89,9 +88,9 @@ namespace ScpDriverInterface
         /// <param name="disposing">True if called from Dispose(), false if called from finalizer.</param>
 		protected virtual void Dispose(bool disposing)
 		{
-			if (_deviceHandle != null && !_deviceHandle.IsInvalid)
+			if (deviceHandle != null && !deviceHandle.IsInvalid)
 			{
-				_deviceHandle.Dispose();
+				deviceHandle.Dispose();
 			}
 		}
 
@@ -102,7 +101,7 @@ namespace ScpDriverInterface
 		/// <returns>True if the operation was successful, false otherwise.</returns>
 		public bool PlugIn(int controllerNumber)
 		{
-			if (_deviceHandle.IsInvalid)
+			if (deviceHandle.IsInvalid)
 				throw new ObjectDisposedException("SCP Virtual Bus device handle is closed");
 
 			int transfered = 0;
@@ -118,7 +117,7 @@ namespace ScpDriverInterface
 			buffer[6] = (byte)((controllerNumber >> 16) & 0xFF);
 			buffer[7] = (byte)((controllerNumber >> 24) & 0xFF);
 
-			return NativeMethods.DeviceIoControl(_deviceHandle, 0x2A4000, buffer, buffer.Length, null, 0, ref transfered, IntPtr.Zero);
+			return NativeMethods.DeviceIoControl(deviceHandle, 0x2A4000, buffer, buffer.Length, null, 0, ref transfered, IntPtr.Zero);
 		}
 
 		/// <summary>
@@ -128,7 +127,7 @@ namespace ScpDriverInterface
 		/// <returns>True if the operation was successful, false otherwise.</returns>
 		public bool Unplug(int controllerNumber)
 		{
-			if (_deviceHandle.IsInvalid)
+			if (deviceHandle.IsInvalid)
 				throw new ObjectDisposedException("SCP Virtual Bus device handle is closed");
 
 			int transfered = 0;
@@ -144,7 +143,7 @@ namespace ScpDriverInterface
 			buffer[6] = (byte)((controllerNumber >> 16) & 0xFF);
 			buffer[7] = (byte)((controllerNumber >> 24) & 0xFF);
 
-			return NativeMethods.DeviceIoControl(_deviceHandle, 0x2A4004, buffer, buffer.Length, null, 0, ref transfered, IntPtr.Zero);
+			return NativeMethods.DeviceIoControl(deviceHandle, 0x2A4004, buffer, buffer.Length, null, 0, ref transfered, IntPtr.Zero);
 		}
 
 		/// <summary>
@@ -153,7 +152,7 @@ namespace ScpDriverInterface
 		/// <returns>True if the operation was successful, false otherwise.</returns>
 		public bool UnplugAll()
 		{
-			if (_deviceHandle.IsInvalid)
+			if (deviceHandle.IsInvalid)
 				throw new ObjectDisposedException("SCP Virtual Bus device handle is closed");
 
 			int transfered = 0;
@@ -164,7 +163,7 @@ namespace ScpDriverInterface
 			buffer[2] = 0x00;
 			buffer[3] = 0x00;
 
-			return NativeMethods.DeviceIoControl(_deviceHandle, 0x2A4004, buffer, buffer.Length, null, 0, ref transfered, IntPtr.Zero);
+			return NativeMethods.DeviceIoControl(deviceHandle, 0x2A4004, buffer, buffer.Length, null, 0, ref transfered, IntPtr.Zero);
 		}
 
 		/// <summary>
@@ -187,7 +186,7 @@ namespace ScpDriverInterface
 		/// <returns>True if the operation was successful, false otherwise.</returns>
 		public bool Report(int controllerNumber, byte[] controllerReport, byte[] outputBuffer)
 		{
-			if (_deviceHandle.IsInvalid)
+			if (deviceHandle.IsInvalid)
 				throw new ObjectDisposedException("SCP Virtual Bus device handle is closed");
 
 			byte[] head = new byte[8];
@@ -204,7 +203,7 @@ namespace ScpDriverInterface
 			Buffer.BlockCopy(controllerReport, 0, fullReport, head.Length, controllerReport.Length);
 
 			int transferred = 0;
-			return NativeMethods.DeviceIoControl(_deviceHandle, 0x2A400C, fullReport, fullReport.Length, outputBuffer, outputBuffer?.Length ?? 0, ref transferred, IntPtr.Zero) && transferred > 0;
+			return NativeMethods.DeviceIoControl(deviceHandle, 0x2A400C, fullReport, fullReport.Length, outputBuffer, outputBuffer?.Length ?? 0, ref transferred, IntPtr.Zero) && transferred > 0;
 		}
 
 		private static bool Find(Guid target, ref string path, int instance = 0)
@@ -312,5 +311,3 @@ namespace ScpDriverInterface
 		internal static extern bool SetupDiGetDeviceInterfaceDetail(IntPtr hDevInfo, ref SP_DEVICE_INTERFACE_DATA deviceInterfaceData, IntPtr deviceInterfaceDetailData, int deviceInterfaceDetailDataSize, ref int requiredSize, ref SP_DEVICE_INTERFACE_DATA deviceInfoData);
 	}
 }
-
-

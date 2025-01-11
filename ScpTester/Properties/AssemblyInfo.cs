@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("ScpTester")]
 [assembly: AssemblyDescription("Tester for ScpDriverInterface.dll")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Mogzol")]
+[assembly: AssemblyCompany("None (OSS)")]
 [assembly: AssemblyProduct("ScpTester")]
 [assembly: AssemblyCopyright("Copyright © Mogzol 2016")]
 [assembly: AssemblyTrademark("")]
@@ -21,15 +21,5 @@ using System.Runtime.InteropServices;
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 [assembly: Guid("4a49e8e2-4c1b-4dbe-8ede-2325dfd8faf6")]
 
-// Version information for an assembly consists of the following four values:
-//
-//      Major Version
-//      Minor Version 
-//      Build Number
-//      Revision
-//
-// You can specify all the values or you can default the Build and Revision Numbers 
-// by using the '*' as shown below:
-// [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: AssemblyVersion("1.2.0.0")]
+[assembly: AssemblyFileVersion("1.2.0.0")]

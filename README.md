@@ -1,22 +1,42 @@
 # ScpDriverInterface
 
-ScpDriverInterface uses Scarlet.Crush's SCP Virtual Bus Driver to emulate Xbox 360 controllers. Credits and major props go to  [Scarlet.Crush](http://forums.pcsx2.net/User-Scarlet-Crush) for his awesome [SCP Server software](http://forums.pcsx2.net/Thread-XInput-Wrapper-for-DS3-and-Play-com-USB-Dual-DS2-Controller), without his work this wouldn't be possible.
+ScpDriverInterface provides a .NET wrapper for the "SCP Virtual Bus Driver", for a means to emulate Xbox 360 controllers on PC and other devices.
 
-## Downloads
+Credits and major props go to 
+[Scarlet.Crush](http://forums.pcsx2.net/User-Scarlet-Crush) for his awesome 
+[SCP Server software](http://forums.pcsx2.net/Thread-XInput-Wrapper-for-DS3-and-Play-com-USB-Dual-DS2-Controller) which is the foundation of the driver itself.
+Without his work this wouldn't be possible.
 
-Head over to the project's [releases page](https://github.com/mogzol/ScpDriverInterface/releases) to download the latest compiled version of ScpDriverInterface, along with an installer for the SCP Virtual Bus Driver (credit to Scarlet.Crush) and a tester application.
+One important goal for this software is to make it easier to bridge between custom accessibility hardware and software which honors standard gamepad controller input.
+The hope is that this could enable new possibilities for those which particular needs to participate in gaming which might otherwise be too difficult or impossible.
+Another use is enabling software test engineers in the games industry to build test automation without having to write bespoke input-automation hooks in the game code.
 
 ## Usage
 
-The binary for ScpDriverInterface is a .NET DLL file written in C#. You can get this file in the downloads section above, along with XML documentation and some other useful apps.
+**SimWinInput**:
+First, if your goal is to emulate Xbox 360 controllers on your PC via a .NET app as simply as possible, you may will want to start with
+[SimWinInput](https://github.com/davidrieman/SimWinInput) instead. It is a more user-friendly C# library using an instance of ScpDriverInstaller as an embedded
+dependency for seamless, automatic driver installation, as needed.
 
-Just a note, the example code here is all in C#, but it should be pretty similar for other languages.
+**ScpDriverInterface**:
+This is a .NET DLL file written in C#. It is a fairly minimal wrapper to interface with the SCP Virtual Bus Driver, meaning it intentionally carries the same quirks.
+
+**ScpDriverInstaller**:
+This repository fork uses [EmbeddedDIFx](https://github.com/davidrieman/EmbeddedDIFx) to manage the driver installation process more seamlessly than the base repository.
+(The base repository will not be updated with this feature, [as noted here](https://github.com/mogzol/ScpDriverInterface/pull/5#issuecomment-2547265948).)
+
+**ScpTester**:
+This is a small C# application which demonstrates how to use ScpDriverInterface to plug in and unplug virtual controllers, and send inputs to them.
+For example, you can launch this test app, also launch another app which accepts Xbox 360 controller input, and see the other app then respond to simulated inputs from ScpTester.
+Note that this app will not work if you have not manually, correctly installed the SCP Virtual Bus Driver first.
 
 ### A Note on Return Values
 
 Before we begin, I just want to mention that ScpBus's `PlugIn()`, `Unplug()`, `UnplugAll()`, and `Report()` methods will all return boolean values indicating whether or not the operation was successful (i.e. True if the operation was successful, False otherwise). While you aren't required to use these returned values, I would recommend that you do use them whenever you want to make sure that what you wanted to happen actually happened.
 
 ### Creating a New ScpBus Object
+
+The example code here is all in C#, but it should be pretty similar for other languages.
 
 After adding the DLL to your project, usage is very straightforward. First you must create a new ScpBus object:
 

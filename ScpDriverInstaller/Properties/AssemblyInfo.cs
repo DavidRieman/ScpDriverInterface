@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("ScpDriverInstaller")]
 [assembly: AssemblyDescription("Installs Scarlet.Crush's SCP Virtual Bus Driver")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Mogzol and Scarlet.Crush")]
+[assembly: AssemblyCompany("None (OSS)")]
 [assembly: AssemblyProduct("ScpDriverInstaller")]
 [assembly: AssemblyCopyright("Copyright © Mogzol 2016")]
 [assembly: AssemblyTrademark("")]
@@ -21,15 +21,5 @@ using System.Runtime.InteropServices;
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 [assembly: Guid("2b5ed6dc-ab58-4c7a-a524-3f9b44e39344")]
 
-// Version information for an assembly consists of the following four values:
-//
-//      Major Version
-//      Minor Version 
-//      Build Number
-//      Revision
-//
-// You can specify all the values or you can default the Build and Revision Numbers 
-// by using the '*' as shown below:
-// [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: AssemblyVersion("1.2.0.0")]
+[assembly: AssemblyFileVersion("1.2.0.0")]
